@@ -33,7 +33,12 @@ export async function verify(envelope: Envelope, opts: VerifyOptions): Promise<V
     return { ok: false, error: "verify rejects duplicate keyid across signatures" };
   }
 
-  const receiptJson = JSON.parse(new TextDecoder().decode(envelopePayloadBytes(env)));
+  let receiptJson: unknown;
+  try {
+    receiptJson = JSON.parse(new TextDecoder().decode(envelopePayloadBytes(env)));
+  } catch (e) {
+    return { ok: false, error: `payload is not valid JSON: ${(e as Error).message}` };
+  }
   const recParsed = ReceiptSchema.safeParse(receiptJson);
   if (!recParsed.success) {
     return { ok: false, error: `receipt schema: ${recParsed.error.message}` };
