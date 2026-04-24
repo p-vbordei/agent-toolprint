@@ -20,13 +20,13 @@ No standard, lightweight, **double-signed** receipt format exists specifically f
 
 ## Scope
 
-**In scope**
+**In scope (v0.1 — see [SCOPE.md](./SCOPE.md))**
 
-- Receipt schema (CBOR / JCS, canonical)
+- Receipt schema (JCS canonical)
 - DSSE envelope with two signatures (agent + tool)
 - Hash-binding of args and response
 - Chaining via `parent` receipt id
-- Reference Rust + TypeScript libraries
+- Reference TypeScript library
 - Conformance vectors
 
 **Out of scope**
@@ -67,7 +67,9 @@ Verdict: **EASY**. Full validation: [`../research/validations/agent-toolprint.md
 
 ## Implementation skeleton
 
-**Receipt v0.1 (CBOR / JCS):**
+> Original design sketch. The authoritative v0.1 grammar lives in [SPEC.md](./SPEC.md); scope decisions in [SCOPE.md](./SCOPE.md).
+
+**Receipt v0.1 (original sketch):**
 
 ```
 {
