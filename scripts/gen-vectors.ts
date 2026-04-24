@@ -1,6 +1,6 @@
 import { ed25519 } from "@noble/curves/ed25519.js";
-import { didKeyFromEd25519Pubkey } from "../src/did-key.ts";
 import { sha256Hash } from "../src/canonical.ts";
+import { didKeyFromEd25519Pubkey } from "../src/did-key.ts";
 
 const agentDid = didKeyFromEd25519Pubkey(ed25519.getPublicKey(new Uint8Array(32).fill(1)));
 const toolDid = didKeyFromEd25519Pubkey(ed25519.getPublicKey(new Uint8Array(32).fill(2)));

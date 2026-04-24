@@ -1,12 +1,12 @@
 import { readdir } from "node:fs/promises";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { join, dirname } from "node:path";
-import { countersignTool, signAgent } from "../src/sign.ts";
-import { verify } from "../src/verify.ts";
-import { didKeyResolver } from "../src/did-key.ts";
-import { chain as chainCheck } from "../src/chain.ts";
 import { sha256Hash } from "../src/canonical.ts";
-import { ReceiptSchema, type Envelope, type Receipt } from "../src/types.ts";
+import { chain as chainCheck } from "../src/chain.ts";
+import { didKeyResolver } from "../src/did-key.ts";
+import { countersignTool, signAgent } from "../src/sign.ts";
+import { type Envelope, type Receipt, ReceiptSchema } from "../src/types.ts";
+import { verify } from "../src/verify.ts";
 
 export type Vector = {
   clause: "C1" | "C2" | "C3" | "C4";
@@ -22,11 +22,7 @@ function seedSk(seed: number): Uint8Array {
   return new Uint8Array(32).fill(seed);
 }
 
-function buildSignedEnvelope(
-  receipt: Receipt,
-  agentSeed: number,
-  toolSeed: number,
-): Envelope {
+function buildSignedEnvelope(receipt: Receipt, agentSeed: number, toolSeed: number): Envelope {
   return countersignTool(signAgent(receipt, seedSk(agentSeed)), seedSk(toolSeed));
 }
 

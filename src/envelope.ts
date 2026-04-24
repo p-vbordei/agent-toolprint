@@ -1,5 +1,5 @@
 import { base64 } from "@scure/base";
-import { PAYLOAD_TYPE, type Envelope } from "./types.ts";
+import { type Envelope, PAYLOAD_TYPE } from "./types.ts";
 
 export function paeEncode(payloadType: string, body: Uint8Array): Uint8Array {
   const enc = new TextEncoder();

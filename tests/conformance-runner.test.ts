@@ -1,16 +1,12 @@
 import { describe, expect, it } from "bun:test";
 import { ed25519 } from "@noble/curves/ed25519.js";
-import { didKeyFromEd25519Pubkey } from "../src/did-key.ts";
 import { runVectorFile } from "../conformance/run.ts";
+import { didKeyFromEd25519Pubkey } from "../src/did-key.ts";
 
 describe("conformance runner", () => {
   it("resolves against a trivially-valid vector inline", async () => {
-    const agentDid = didKeyFromEd25519Pubkey(
-      ed25519.getPublicKey(new Uint8Array(32).fill(1)),
-    );
-    const toolDid = didKeyFromEd25519Pubkey(
-      ed25519.getPublicKey(new Uint8Array(32).fill(2)),
-    );
+    const agentDid = didKeyFromEd25519Pubkey(ed25519.getPublicKey(new Uint8Array(32).fill(1)));
+    const toolDid = didKeyFromEd25519Pubkey(ed25519.getPublicKey(new Uint8Array(32).fill(2)));
     const vector = {
       clause: "C1" as const,
       name: "inline-sanity",
@@ -24,8 +20,7 @@ describe("conformance runner", () => {
           tool: { did: toolDid, key_id: "t" },
           call: {
             name: "noop",
-            args_hash:
-              "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+            args_hash: "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
           },
           result: {
             status: "ok",

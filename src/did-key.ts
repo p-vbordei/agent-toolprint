@@ -1,10 +1,6 @@
 import { base58 } from "@scure/base";
 
-export type Resolver = (
-  did: string,
-  keyId: string,
-  atTime: Date,
-) => Promise<Uint8Array | null>;
+export type Resolver = (did: string, keyId: string, atTime: Date) => Promise<Uint8Array | null>;
 
 const MC_ED25519_PUB = Uint8Array.of(0xed, 0x01);
 

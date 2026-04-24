@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { base64 } from "@scure/base";
-import { paeEncode, envelopePayloadBytes, newEnvelope } from "../src/envelope.ts";
+import { envelopePayloadBytes, newEnvelope, paeEncode } from "../src/envelope.ts";
 import { PAYLOAD_TYPE } from "../src/types.ts";
 
 describe("paeEncode (DSSE pre-authenticated encoding)", () => {

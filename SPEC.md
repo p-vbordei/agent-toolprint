@@ -1,6 +1,6 @@
-# agent-toolprint — v0.1 specification (DRAFT)
+# agent-toolprint — v0.1 specification
 
-**Status:** draft, not yet implemented.
+**Status:** 1.0 (stable).
 **Scope:** see [SCOPE.md](./SCOPE.md) for the v0.1 feature decisions that shaped the grammar below.
 
 ## Abstract

@@ -1,5 +1,5 @@
 import { envelopePayloadBytes } from "./envelope.ts";
-import { ReceiptSchema, type Envelope } from "./types.ts";
+import { type Envelope, ReceiptSchema } from "./types.ts";
 
 export function chain(parent: Envelope, child: Envelope): boolean {
   const p = ReceiptSchema.parse(JSON.parse(new TextDecoder().decode(envelopePayloadBytes(parent))));

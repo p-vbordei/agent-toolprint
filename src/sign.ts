@@ -2,7 +2,7 @@ import { ed25519 } from "@noble/curves/ed25519.js";
 import { base64 } from "@scure/base";
 import { canonicalBytes } from "./canonical.ts";
 import { newEnvelope, paeEncode } from "./envelope.ts";
-import { PAYLOAD_TYPE, ReceiptSchema, type Envelope, type Receipt } from "./types.ts";
+import { type Envelope, PAYLOAD_TYPE, type Receipt, ReceiptSchema } from "./types.ts";
 
 export function signAgent(receipt: Receipt, sk: Uint8Array): Envelope {
   ReceiptSchema.parse(receipt);
@@ -35,9 +35,6 @@ export function countersignTool(envelope: Envelope, sk: Uint8Array): Envelope {
   const sig = ed25519.sign(pae, sk);
   return {
     ...envelope,
-    signatures: [
-      ...envelope.signatures,
-      { keyid: receipt.tool.key_id, sig: base64.encode(sig) },
-    ],
+    signatures: [...envelope.signatures, { keyid: receipt.tool.key_id, sig: base64.encode(sig) }],
   };
 }

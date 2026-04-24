@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { ReceiptSchema, EnvelopeSchema } from "../src/types.ts";
+import { EnvelopeSchema, ReceiptSchema } from "../src/types.ts";
 
 const validReceipt = {
   v: "tp/0.1",

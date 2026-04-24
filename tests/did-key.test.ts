@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { ed25519 } from "@noble/curves/ed25519.js";
-import { didKeyFromEd25519Pubkey, parseDidKey, didKeyResolver } from "../src/did-key.ts";
+import { didKeyFromEd25519Pubkey, didKeyResolver, parseDidKey } from "../src/did-key.ts";
 
 describe("did:key round-trip", () => {
   it("encodes and decodes a pubkey", () => {

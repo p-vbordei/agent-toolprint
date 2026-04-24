@@ -1,10 +1,10 @@
 import { describe, expect, it } from "bun:test";
 import { ed25519 } from "@noble/curves/ed25519.js";
-import { countersignTool, signAgent } from "../src/sign.ts";
-import { verify } from "../src/verify.ts";
-import { didKeyFromEd25519Pubkey, didKeyResolver } from "../src/did-key.ts";
 import { sha256Hash } from "../src/canonical.ts";
+import { didKeyFromEd25519Pubkey, didKeyResolver } from "../src/did-key.ts";
+import { countersignTool, signAgent } from "../src/sign.ts";
 import type { Receipt } from "../src/types.ts";
+import { verify } from "../src/verify.ts";
 
 function fixtureReceipt(tsOverride?: string): Receipt {
   const agentSk = new Uint8Array(32).fill(1);
@@ -178,4 +178,3 @@ describe("verify — plaintext hash re-check", () => {
     if (!result.ok) expect(result.error).toMatch(/args_hash/i);
   });
 });
-

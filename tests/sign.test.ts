@@ -1,9 +1,9 @@
 import { describe, expect, it } from "bun:test";
 import { ed25519 } from "@noble/curves/ed25519.js";
 import { base64 } from "@scure/base";
-import { countersignTool, signAgent } from "../src/sign.ts";
-import { envelopePaeBytes, envelopePayloadBytes } from "../src/envelope.ts";
 import { didKeyFromEd25519Pubkey } from "../src/did-key.ts";
+import { envelopePaeBytes, envelopePayloadBytes } from "../src/envelope.ts";
+import { countersignTool, signAgent } from "../src/sign.ts";
 import type { Receipt } from "../src/types.ts";
 
 function fixtureReceipt(): Receipt {

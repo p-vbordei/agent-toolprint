@@ -1,14 +1,14 @@
-import { ed25519 } from "@noble/curves/ed25519.js";
 import { randomUUID } from "node:crypto";
+import { ed25519 } from "@noble/curves/ed25519.js";
 import { base64 } from "@scure/base";
 import {
   countersignTool,
   didKeyFromEd25519Pubkey,
   didKeyResolver,
+  type Receipt,
   sha256Hash,
   signAgent,
   verify,
-  type Receipt,
 } from "../src/index.ts";
 
 const agentSk = ed25519.utils.randomSecretKey();

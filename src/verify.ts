@@ -1,9 +1,9 @@
 import { ed25519 } from "@noble/curves/ed25519.js";
 import { base64 } from "@scure/base";
 import { sha256Hash } from "./canonical.ts";
-import { envelopePaeBytes, envelopePayloadBytes } from "./envelope.ts";
 import type { Resolver } from "./did-key.ts";
-import { EnvelopeSchema, ReceiptSchema, type Envelope, type Receipt } from "./types.ts";
+import { envelopePaeBytes, envelopePayloadBytes } from "./envelope.ts";
+import { type Envelope, EnvelopeSchema, type Receipt, ReceiptSchema } from "./types.ts";
 
 export type VerifyOptions = {
   resolver: Resolver;
@@ -72,11 +72,7 @@ export async function verify(envelope: Envelope, opts: VerifyOptions): Promise<V
     return { ok: false, error: "agent signature invalid" };
   }
 
-  const toolPk = await opts.resolver(
-    receipt.tool.did,
-    receipt.tool.key_id,
-    new Date(receipt.ts),
-  );
+  const toolPk = await opts.resolver(receipt.tool.did, receipt.tool.key_id, new Date(receipt.ts));
   if (!toolPk) return { ok: false, error: `tool DID did not resolve: ${receipt.tool.did}` };
   const toolSig = base64.decode(env.signatures[1]!.sig);
   if (!ed25519.verify(toolSig, pae, toolPk)) {

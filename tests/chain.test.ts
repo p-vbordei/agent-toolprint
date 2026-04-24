@@ -1,11 +1,11 @@
 import { describe, expect, it } from "bun:test";
-import { ed25519 } from "@noble/curves/ed25519.js";
 import { randomUUID } from "node:crypto";
+import { ed25519 } from "@noble/curves/ed25519.js";
 import { base64 } from "@scure/base";
-import { countersignTool, signAgent } from "../src/sign.ts";
+import { sha256Hash } from "../src/canonical.ts";
 import { chain } from "../src/chain.ts";
 import { didKeyFromEd25519Pubkey } from "../src/did-key.ts";
-import { sha256Hash } from "../src/canonical.ts";
+import { countersignTool, signAgent } from "../src/sign.ts";
 import type { Receipt } from "../src/types.ts";
 
 const AGENT_SK = new Uint8Array(32).fill(1);
