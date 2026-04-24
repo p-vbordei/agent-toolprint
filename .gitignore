@@ -29,3 +29,7 @@ venv/
 *.log
 tmp/
 .cache/
+
+# Bun
+bun.lockb
+.bun/
