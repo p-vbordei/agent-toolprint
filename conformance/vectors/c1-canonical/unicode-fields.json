@@ -1,0 +1,35 @@
+{
+  "clause": "C1",
+  "name": "unicode-call-name",
+  "description": "JCS handles Unicode in string fields with canonical UTF-8 byte output.",
+  "input": {
+    "receipt": {
+      "v": "tp/0.1",
+      "id": "0192b6c7-4e58-7a2d-ae9e-6c77f3e20c45",
+      "ts": "2026-04-24T10:00:00Z",
+      "agent": {
+        "did": "did:key:z6Mkon3Necd6NkkyfoGoHxid2znGc59LU3K7mubaRcFbLfLX",
+        "key_id": "agent"
+      },
+      "tool": {
+        "did": "did:key:z6Mko9hTggMwjSTEaJaPUfE6tqcy2xvU6BnNq3e3o8qVBiyH",
+        "key_id": "tool"
+      },
+      "call": {
+        "name": "søk",
+        "args_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "result": {
+        "status": "ok",
+        "response_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "nonce": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+    },
+    "agent_sk_seed": 1,
+    "tool_sk_seed": 2
+  },
+  "expected": {
+    "canonical_payload_sha256": "sha256:05317395afc375bc1226be23391874cb1c9742bbfafd80b02dcae781c95f353e",
+    "verify_ok": true
+  }
+}

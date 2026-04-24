@@ -1,0 +1,36 @@
+{
+  "clause": "C1",
+  "name": "includes-parent",
+  "description": "Optional parent field appears in canonical output when supplied.",
+  "input": {
+    "receipt": {
+      "v": "tp/0.1",
+      "id": "0192b6c7-4e58-7a2d-ae9e-6c77f3e20c46",
+      "ts": "2026-04-24T10:00:00Z",
+      "agent": {
+        "did": "did:key:z6Mkon3Necd6NkkyfoGoHxid2znGc59LU3K7mubaRcFbLfLX",
+        "key_id": "agent"
+      },
+      "tool": {
+        "did": "did:key:z6Mko9hTggMwjSTEaJaPUfE6tqcy2xvU6BnNq3e3o8qVBiyH",
+        "key_id": "tool"
+      },
+      "call": {
+        "name": "search",
+        "args_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "result": {
+        "status": "ok",
+        "response_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "nonce": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+      "parent": "0192b6c7-4e58-7a2d-ae9e-6c77f3e20c44"
+    },
+    "agent_sk_seed": 1,
+    "tool_sk_seed": 2
+  },
+  "expected": {
+    "canonical_payload_sha256": "sha256:17a9e888dbcf8fe01da2f6c83cc98a92facc2e6e90575305fd0c6d56bf3485c5",
+    "verify_ok": true
+  }
+}
