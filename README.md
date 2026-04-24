@@ -10,7 +10,38 @@ It answers the audit question cleanly: "yes, agent X called tool Y with these ar
 
 ## Status
 
-**0.0 — design phase.** Draft spec in [SPEC.md](./SPEC.md). No code yet.
+**v0.1.0 — first release.** TypeScript ref impl, 12 conformance vectors, 20-line demo.
+
+## Quickstart
+
+```bash
+git clone <repo-url> agent-toolprint
+cd agent-toolprint
+bun install
+bun run demo
+```
+
+You'll see one receipt flow `signAgent → countersignTool → verify` (prints `ok: true`), then the same envelope with a single-byte tamper (prints `ok: false`).
+
+## Usage
+
+```ts
+import {
+  signAgent,
+  countersignTool,
+  verify,
+  didKeyResolver,
+  sha256Hash,
+  type Receipt,
+} from "agent-toolprint";
+
+const receipt: Receipt = { /* see examples/demo.ts */ };
+const envelope = countersignTool(signAgent(receipt, agentSk), toolSk);
+const result = await verify(envelope, { resolver: didKeyResolver });
+// result: { ok: true, receipt } | { ok: false, error }
+```
+
+See [`SPEC.md`](./SPEC.md) for the normative grammar, [`SCOPE.md`](./SCOPE.md) for v0.1 feature decisions, and [`conformance/`](./conformance/) for the vector suite (`bun run conformance`).
 
 ## The gap
 
