@@ -110,6 +110,13 @@ Wrapped in a DSSE envelope carrying **two** signatures over the same payload byt
 2. Tampering args or response hash → verify fails.
 3. Single-signed receipt rejected; double-signed chain verifies end-to-end.
 
+## Security notes
+
+- **Replay is caller-side.** The library is stateless. Consumers that need uniqueness track `(id, nonce)` themselves. See `tests/security-replay.test.ts`.
+- **Revocation is out-of-band.** If an agent or tool later repudiates a receipt, the receipt remains cryptographically valid; consumers must consult an external revocation list.
+- **Plaintext is out-of-band.** Receipts carry `sha256:<hex>` of JCS-canonical args and responses. Audit reviewers request plaintext separately and re-hash it — `verify(..., { plaintext: { args, response } })` performs this check.
+- **Key rotation on `did:key` is a no-op.** The verification key is derived from the DID string; it cannot change without changing the DID.
+
 ## License
 
 Apache 2.0 — see [LICENSE](./LICENSE).
