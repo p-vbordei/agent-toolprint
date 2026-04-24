@@ -1,0 +1,33 @@
+{
+  "clause": "C3",
+  "name": "tool-only",
+  "description": "An envelope with only the tool signature is rejected.",
+  "input": {
+    "receipt": {
+      "v": "tp/0.1",
+      "id": "0192b6c7-4e58-7a2d-ae9e-6c77f3e20c44",
+      "ts": "2026-04-24T10:00:00Z",
+      "agent": {
+        "did": "did:key:z6Mkon3Necd6NkkyfoGoHxid2znGc59LU3K7mubaRcFbLfLX",
+        "key_id": "agent"
+      },
+      "tool": {
+        "did": "did:key:z6Mko9hTggMwjSTEaJaPUfE6tqcy2xvU6BnNq3e3o8qVBiyH",
+        "key_id": "tool"
+      },
+      "call": {
+        "name": "search",
+        "args_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "result": {
+        "status": "ok",
+        "response_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "nonce": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+    },
+    "agent_sk_seed": 1,
+    "tool_sk_seed": 2,
+    "role": "tool-only"
+  },
+  "expected": { "verify_ok": false }
+}
