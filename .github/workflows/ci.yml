@@ -17,3 +17,8 @@ jobs:
       - run: bun check
       - run: bun test
       - run: bun run conformance
+      - name: Quickstart smoke (README must keep working)
+        run: |
+          out="$(bun run demo)"
+          echo "$out" | grep -q '^verify:'
+          echo "$out" | grep -q 'verify (after 1-byte tamper)'

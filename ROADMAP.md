@@ -51,6 +51,12 @@ None urgent. Listed so future-us remembers what was intentionally skipped.
 - **SPEC cross-repo link** — `SPEC.md §7` links to `../agent-id/SPEC.md`, which only resolves when the repo sits alongside `agent-id`. Fix to a canonical URL once `agent-id` has a stable home.
 - **Fuzzing** — add a small property-based test (fast-check or Bun's built-in fuzzing if it lands) exercising the full pipeline against random-but-valid receipts.
 - **Benchmarks** — `@noble/curves` is already fast enough for audit logging (thousands of verifies/second on a laptop). A microbenchmark only pays off if a perf-bound caller appears. Would live in `bench/` — not present in v0.1.
+- **Publish-prep package.json** — add `repository`, `bugs`, `homepage`, `keywords`, `files` whitelist, `engines` (Bun min), `publishConfig` (access `public`). Keep deferred until the publish gate opens, since these become real once the registry name is claimed.
+
+### Done since v0.1.0 tag
+
+- ✅ CI smoke for the README Quickstart (`bun run demo` runs in `.github/workflows/ci.yml` and asserts both `verify:` lines appear). Catches doc/code drift on every PR.
+- ✅ Frozen-lockfile clean install verified locally — `rm -rf node_modules && bun install --frozen-lockfile` reproduces 12 packages and all gates stay green.
 
 ## Non-goals (will stay out in v0.2 too unless the world changes)
 
