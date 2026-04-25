@@ -145,13 +145,13 @@ Wrapped in a DSSE envelope with **exactly two** Ed25519 signatures (agent first,
 
 ```bash
 bun run conformance
-# 12/12 passed in ~0.2s
+# 15/15 passed in ~0.2s
 ```
 
 The vectors in [`conformance/vectors/`](./conformance/vectors/) are the contract with other implementations. Cover all four SPEC §6 clauses:
 
 - **(C1)** byte-identical canonical encoding across implementations (3 vectors)
-- **(C2)** single-byte mutation of any field fails verify (4 vectors)
+- **(C2)** mutation of any field fails verify (7 vectors — payload byte-flip, agent/tool sig flip, swap-sigs, agent/tool keyid mismatch, non-canonical payload)
 - **(C3)** single-signed envelope rejected (2 vectors)
 - **(C4)** `parent.id == child.parent` enforced (3 vectors)
 
@@ -172,7 +172,7 @@ src/                                  # 8 files, each <200 LoC, 314 total
 
 examples/demo.ts                      the 20-line demo
 conformance/                          12 JSON vectors + runner
-tests/                                bun:test, 52 tests across 11 files
+tests/                                bun:test, 57 tests across 11 files
 docs/superpowers/plans/               internal — implementation history
 
 SPEC.md                               normative grammar

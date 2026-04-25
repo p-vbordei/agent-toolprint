@@ -6,7 +6,7 @@ Where `agent-toolprint` is and where it's going. Companion to [`CHANGELOG.md`](.
 
 **v0.1.0 tagged locally on branch `claude/blissful-elion-286490`.** Not pushed, not published.
 
-- 52 tests green, 12/12 conformance vectors pass in ~0.2s, `bun check` clean.
+- 57 tests green, 15/15 conformance vectors pass in ~0.2s, `bun check` clean, `bunx tsc --noEmit` clean.
 - 314 LoC across 8 `src/` files, every file under 200 lines.
 - Public API: `signAgent`, `countersignTool`, `verify`, `chain` + did:key helpers + schemas.
 - SPEC.md status: `1.0 (stable)`.
