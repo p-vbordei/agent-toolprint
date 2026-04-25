@@ -1,7 +1,7 @@
 {
   "name": "agent-toolprint",
-  "version": "0.0.0",
-  "description": "Double-signed receipts for agent↔tool invocations",
+  "version": "0.1.0",
+  "description": "Double-signed receipts for tool invocations by AI agents — DSSE + JCS + Ed25519, verifiable offline.",
   "type": "module",
   "exports": {
     ".": "./src/index.ts"
@@ -16,6 +16,44 @@
     "format": "biome format --write ."
   },
   "license": "Apache-2.0",
+  "homepage": "https://github.com/p-vbordei/agent-toolprint#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/p-vbordei/agent-toolprint.git"
+  },
+  "bugs": {
+    "url": "https://github.com/p-vbordei/agent-toolprint/issues"
+  },
+  "keywords": [
+    "agent",
+    "ai-agent",
+    "tool-call",
+    "audit",
+    "receipt",
+    "dsse",
+    "ed25519",
+    "did-key",
+    "jcs",
+    "non-repudiation",
+    "provenance",
+    "mcp"
+  ],
+  "engines": {
+    "bun": ">=1.3"
+  },
+  "files": [
+    "src",
+    "conformance",
+    "SPEC.md",
+    "SCOPE.md",
+    "CHANGELOG.md",
+    "ROADMAP.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@noble/curves": "^2.2.0",
     "@noble/hashes": "^2.2.0",
