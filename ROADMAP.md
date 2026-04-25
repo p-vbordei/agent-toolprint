@@ -57,6 +57,8 @@ None urgent. Listed so future-us remembers what was intentionally skipped.
 
 - ✅ CI smoke for the README Quickstart (`bun run demo` runs in `.github/workflows/ci.yml` and asserts both `verify:` lines appear). Catches doc/code drift on every PR.
 - ✅ Frozen-lockfile clean install verified locally — `rm -rf node_modules && bun install --frozen-lockfile` reproduces 12 packages and all gates stay green.
+- ✅ `bunx tsc --noEmit` added to CI — Biome doesn't fully type-check; this closes the gap where a TypeScript-only error could land. New `bun run typecheck` script for local use.
+- ✅ `bun run demo:compile` verified — produces a single-binary `dist/demo` (~58 MB) that runs and prints the same output as the script form.
 
 ## Non-goals (will stay out in v0.2 too unless the world changes)
 

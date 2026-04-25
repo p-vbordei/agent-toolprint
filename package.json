@@ -11,6 +11,7 @@
     "demo": "bun run examples/demo.ts",
     "demo:compile": "bun build --compile examples/demo.ts --outfile dist/demo",
     "conformance": "bun run conformance/run.ts",
+    "typecheck": "tsc --noEmit",
     "check": "biome check .",
     "format": "biome format --write ."
   },
