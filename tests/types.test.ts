@@ -50,6 +50,17 @@ describe("ReceiptSchema", () => {
     };
     expect(() => ReceiptSchema.parse(withParent)).not.toThrow();
   });
+
+  it("rejects a nonce that is not exactly 32 bytes (44-char base64)", () => {
+    const tooShort = { ...validReceipt, nonce: "AAA=" };
+    expect(() => ReceiptSchema.parse(tooShort)).toThrow();
+
+    const empty = { ...validReceipt, nonce: "" };
+    expect(() => ReceiptSchema.parse(empty)).toThrow();
+
+    const tooLong = { ...validReceipt, nonce: `AAAAAAAA${validReceipt.nonce}` };
+    expect(() => ReceiptSchema.parse(tooLong)).toThrow();
+  });
 });
 
 describe("EnvelopeSchema", () => {

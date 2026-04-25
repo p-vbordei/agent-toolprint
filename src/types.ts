@@ -2,6 +2,7 @@ import { z } from "zod";
 
 const HashHex = /^sha256:[0-9a-f]{64}$/;
 const Base64 = /^[A-Za-z0-9+/]*={0,2}$/;
+const Nonce32 = /^[A-Za-z0-9+/]{43}=$/; // SPEC §2: nonce is base64 of 32 random bytes
 const DidKey = /^did:key:z[1-9A-HJ-NP-Za-km-z]+$/;
 const Uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
@@ -31,7 +32,7 @@ export const ReceiptSchema = z
         response_hash: z.string().regex(HashHex),
       })
       .strict(),
-    nonce: z.string().regex(Base64),
+    nonce: z.string().regex(Nonce32),
     parent: z.string().regex(Uuid).optional(),
   })
   .strict();
