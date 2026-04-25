@@ -55,4 +55,15 @@ describe("chain", () => {
     const c = mkReceipt(randomUUID());
     expect(chain(envelope(p), envelope(c))).toBe(false);
   });
+
+  it("returns false (does not throw) when given a malformed envelope", () => {
+    const p = mkReceipt();
+    const malformed = {
+      payloadType: "application/vnd.agent-toolprint+json",
+      payload: "AAAA",
+      signatures: [{ keyid: "a", sig: "BB" }],
+    };
+    expect(() => chain(envelope(p), malformed as never)).not.toThrow();
+    expect(chain(envelope(p), malformed as never)).toBe(false);
+  });
 });
