@@ -69,10 +69,12 @@ chain(parent_envelope, child_envelope) -> bool    // parent.id == child.receipt.
 `verify` MUST check:
 
 1. Envelope has exactly 2 signatures.
-2. First signature verifies under the receipt's `agent.did` → `key_id`.
-3. Second signature verifies under `tool.did` → `key_id`.
-4. Hashes of args / response match (if plaintext is supplied for audit).
-5. Timestamp is within a configured window (default: ±24h from "now" unless caller opts out).
+2. `signatures[0].keyid == receipt.agent.key_id` and `signatures[1].keyid == receipt.tool.key_id`. The keyid field is load-bearing, not decorative.
+3. Envelope payload bytes equal `JCS(receipt)` bytes. Non-canonical encodings are rejected even if the signatures cover them.
+4. First signature verifies under the receipt's `agent.did` → `key_id`.
+5. Second signature verifies under `tool.did` → `key_id`.
+6. Hashes of args / response match (if plaintext is supplied for audit).
+7. Timestamp is within a configured window (default: ±24h from "now" unless caller opts out).
 
 ## 5. Security considerations
 

@@ -1,6 +1,6 @@
 import { ed25519 } from "@noble/curves/ed25519.js";
 import { base64 } from "@scure/base";
-import { sha256Hash } from "./canonical.ts";
+import { canonicalBytes, sha256Hash } from "./canonical.ts";
 import type { Resolver } from "./did-key.ts";
 import { envelopePaeBytes, envelopePayloadBytes } from "./envelope.ts";
 import { type Envelope, EnvelopeSchema, type Receipt, ReceiptSchema } from "./types.ts";
@@ -33,9 +33,10 @@ export async function verify(envelope: Envelope, opts: VerifyOptions): Promise<V
     return { ok: false, error: "verify rejects duplicate keyid across signatures" };
   }
 
+  const payloadBytes = envelopePayloadBytes(env);
   let receiptJson: unknown;
   try {
-    receiptJson = JSON.parse(new TextDecoder().decode(envelopePayloadBytes(env)));
+    receiptJson = JSON.parse(new TextDecoder().decode(payloadBytes));
   } catch (e) {
     return { ok: false, error: `payload is not valid JSON: ${(e as Error).message}` };
   }
@@ -44,6 +45,29 @@ export async function verify(envelope: Envelope, opts: VerifyOptions): Promise<V
     return { ok: false, error: `receipt schema: ${recParsed.error.message}` };
   }
   const receipt = recParsed.data;
+
+  // SPEC §4 check 3: payload MUST be JCS-canonical (no non-canonical encodings accepted)
+  const canonical = canonicalBytes(receipt);
+  if (
+    payloadBytes.length !== canonical.length ||
+    !payloadBytes.every((b, i) => b === canonical[i])
+  ) {
+    return { ok: false, error: "envelope payload is not JCS-canonical" };
+  }
+
+  // SPEC §4 check 2: keyid binding — envelope keyids MUST match receipt keyids
+  if (env.signatures[0]!.keyid !== receipt.agent.key_id) {
+    return {
+      ok: false,
+      error: `keyid mismatch: signatures[0].keyid (${env.signatures[0]!.keyid}) ≠ receipt.agent.key_id (${receipt.agent.key_id})`,
+    };
+  }
+  if (env.signatures[1]!.keyid !== receipt.tool.key_id) {
+    return {
+      ok: false,
+      error: `keyid mismatch: signatures[1].keyid (${env.signatures[1]!.keyid}) ≠ receipt.tool.key_id (${receipt.tool.key_id})`,
+    };
+  }
 
   if (!opts.skipTimestampCheck) {
     const now = opts.now ?? new Date();

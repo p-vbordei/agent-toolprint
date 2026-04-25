@@ -1,9 +1,11 @@
 import { describe, expect, it } from "bun:test";
 import { ed25519 } from "@noble/curves/ed25519.js";
-import { sha256Hash } from "../src/canonical.ts";
+import { base64 } from "@scure/base";
+import { canonicalBytes, sha256Hash } from "../src/canonical.ts";
 import { didKeyFromEd25519Pubkey, didKeyResolver } from "../src/did-key.ts";
+import { paeEncode } from "../src/envelope.ts";
 import { countersignTool, signAgent } from "../src/sign.ts";
-import type { Receipt } from "../src/types.ts";
+import { type Envelope, PAYLOAD_TYPE, type Receipt } from "../src/types.ts";
 import { verify } from "../src/verify.ts";
 
 function fixtureReceipt(tsOverride?: string): Receipt {
@@ -176,5 +178,57 @@ describe("verify — plaintext hash re-check", () => {
     });
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.error).toMatch(/args_hash/i);
+  });
+});
+
+describe("verify — JCS canonicalization is enforced (SPEC §4 check 3)", () => {
+  it("rejects an envelope whose payload is not JCS-canonical even if signatures cover it", async () => {
+    const r = fixtureReceipt();
+    // Hand-craft a non-canonical JSON serialization (keys in original-declaration order, not alphabetic)
+    const nonCanonical = `{"v":"${r.v}","id":"${r.id}","ts":"${r.ts}","agent":${JSON.stringify(r.agent)},"tool":${JSON.stringify(r.tool)},"call":${JSON.stringify(r.call)},"result":${JSON.stringify(r.result)},"nonce":"${r.nonce}"}`;
+    const body = new TextEncoder().encode(nonCanonical);
+    // Confirm it is NOT JCS-canonical (different from canonicalBytes)
+    expect(body).not.toEqual(canonicalBytes(r));
+    // Sign over the non-canonical PAE bytes with both keys
+    const pae = paeEncode(PAYLOAD_TYPE, body);
+    const agentSig = ed25519.sign(pae, AGENT_SK);
+    const toolSig = ed25519.sign(pae, TOOL_SK);
+    const envelope: Envelope = {
+      payloadType: PAYLOAD_TYPE,
+      payload: base64.encode(body),
+      signatures: [
+        { keyid: r.agent.key_id, sig: base64.encode(agentSig) },
+        { keyid: r.tool.key_id, sig: base64.encode(toolSig) },
+      ],
+    };
+    const result = await verify(envelope, { resolver: didKeyResolver, now: NOW });
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error).toMatch(/JCS-canonical/i);
+  });
+});
+
+describe("verify — keyid binding (SPEC §4 check 2)", () => {
+  it("rejects when signatures[0].keyid disagrees with receipt.agent.key_id", async () => {
+    const r = fixtureReceipt();
+    const env = countersignTool(signAgent(r, AGENT_SK), TOOL_SK);
+    const tampered = {
+      ...env,
+      signatures: [{ ...env.signatures[0]!, keyid: "WRONG" }, env.signatures[1]!],
+    };
+    const result = await verify(tampered, { resolver: didKeyResolver, now: NOW });
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error).toMatch(/keyid mismatch/i);
+  });
+
+  it("rejects when signatures[1].keyid disagrees with receipt.tool.key_id", async () => {
+    const r = fixtureReceipt();
+    const env = countersignTool(signAgent(r, AGENT_SK), TOOL_SK);
+    const tampered = {
+      ...env,
+      signatures: [env.signatures[0]!, { ...env.signatures[1]!, keyid: "WRONG" }],
+    };
+    const result = await verify(tampered, { resolver: didKeyResolver, now: NOW });
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error).toMatch(/keyid mismatch/i);
   });
 });
