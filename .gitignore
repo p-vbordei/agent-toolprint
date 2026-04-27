@@ -33,3 +33,4 @@ tmp/
 # Bun
 bun.lockb
 .bun/
+.claude/
