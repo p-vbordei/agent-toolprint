@@ -2,6 +2,11 @@
 
 All notable changes to `agent-toolprint` are documented here. This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.1.1] — 2026-04-27
+
+### Changed
+- Added `author` field to `package.json` (`Vlad Bordei <bordeivlad@gmail.com>`). Metadata-only release; no behaviour or API change. Re-publishing because npm version metadata is immutable per version.
+
 ## [0.1.0] — 2026-04-25
 
 First release.

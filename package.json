@@ -1,7 +1,8 @@
 {
   "name": "agent-toolprint",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Double-signed receipts for tool invocations by AI agents — DSSE + JCS + Ed25519, verifiable offline.",
+  "author": "Vlad Bordei <bordeivlad@gmail.com>",
   "type": "module",
   "exports": {
     ".": "./src/index.ts"
